@@ -94,62 +94,87 @@
       <CCol :md="12">
         <CCard class="mb-4">
           <CCardBody>
-       <Tabs>
-        <div class="btn">
-          <div>
-            <CButton color="secondary" variant="ghost" @click="change">POS terminal</CButton>
-          </div>
-          <div>
-            <CButton color="secondary" variant="ghost" @click="change2">POS Terminal Request</CButton>
-          </div>
-        </div>
-          <Tab name="POS Terminal" v-if="selectedTab==1">
-                        <CTable hover responsive>
-              <CTableHead color="light">
-                <CTableRow >
-                  <CTableHeaderCell scope="col">OurpassReference</CTableHeaderCell>
-                  <CTableHeaderCell scope="col">Authorisation</CTableHeaderCell>
-                  <CTableHeaderCell scope="col">Country</CTableHeaderCell>
-                  <CTableHeaderCell scope="col" >Date Created</CTableHeaderCell>
-                  <CTableHeaderCell scope="col"></CTableHeaderCell>
-                </CTableRow>
-              </CTableHead>
-              <CTableBody>
-                <CTableRow v-for="data in posData" :key="data.id" @click="table1(data)">
-                  <CTableHeaderCell scope="row" >{{data.ourpassReference}}</CTableHeaderCell>
-                  <CTableDataCell>{{data.authorisation}}</CTableDataCell>
-                  <CTableDataCell>{{data.country}}</CTableDataCell>
-                  <CTableDataCell>{{data.createdAt}}</CTableDataCell>
-                    <CTableDataCell>{{data.menu}}</CTableDataCell>
-                </CTableRow>
-
-              </CTableBody>
-              </CTable>
-          </Tab>
-            <br />
-             <Tab name="POS Terminal Request" v-if="selectedTab==2">
-                      <CTable hover responsive>
-            <CTableHead color="light">
-              <CTableRow>
-                <CTableHeaderCell scope="col">BusinessID</CTableHeaderCell>
-                <CTableHeaderCell scope="col">PosType</CTableHeaderCell>
-                <CTableHeaderCell scope="col">Quantity</CTableHeaderCell>
-                <CTableHeaderCell scope="col">Date Created </CTableHeaderCell>
-                <CTableHeaderCell scope="col"></CTableHeaderCell>
-              </CTableRow>
-            </CTableHead>
-            <CTableBody>
-              <CTableRow v-for="data in posRequestData" :key="data.id" @click="table2(data)">
-                <CTableHeaderCell scope="row">{{data.businessId}}</CTableHeaderCell>
-                <CTableDataCell>{{data.posType}}</CTableDataCell>
-                <CTableDataCell>{{data.quantity}}</CTableDataCell>
-                <CTableDataCell>{{data.createdAt}}</CTableDataCell>
-                  <CTableDataCell>{{data.menu}}</CTableDataCell>
-              </CTableRow>
-            </CTableBody>
-            </CTable>
-         </Tab> 
-      </Tabs> 
+            <Tabs>
+              <div class="btn">
+                <div>
+                  <CButton color="secondary" variant="ghost" @click="change"
+                    >POS terminal</CButton
+                  >
+                </div>
+                <div>
+                  <CButton color="secondary" variant="ghost" @click="change2"
+                    >POS Terminal Request</CButton
+                  >
+                </div>
+              </div>
+              <Tab name="POS Terminal" v-if="selectedTab == 1">
+                <CTable hover responsive>
+                  <CTableHead color="light">
+                    <CTableRow>
+                      <CTableHeaderCell scope="col"
+                        >OurpassReference</CTableHeaderCell
+                      >
+                      <CTableHeaderCell scope="col"
+                        >Authorisation</CTableHeaderCell
+                      >
+                      <CTableHeaderCell scope="col">Country</CTableHeaderCell>
+                      <CTableHeaderCell scope="col"
+                        >Date Created</CTableHeaderCell
+                      >
+                      <CTableHeaderCell scope="col"> <CButton color="secondary" variant="outline" @click="posTerminal(data)">Create New POS Terminal</CButton></CTableHeaderCell>
+                    </CTableRow>
+                  </CTableHead>
+                  <CTableBody>
+                    <CTableRow
+                      v-for="data in posData"
+                      :key="data.id"
+                      @click="table1(data)"
+                    >
+                      <CTableHeaderCell scope="row">{{
+                        data.ourpassReference
+                      }}</CTableHeaderCell>
+                      <CTableDataCell>{{ data.authorisation }}</CTableDataCell>
+                      <CTableDataCell>{{ data.country }}</CTableDataCell>
+                      <CTableDataCell>{{ data.createdAt }}</CTableDataCell>
+                      <CTableDataCell>{{ data.menu }}</CTableDataCell>
+                    </CTableRow>
+                  </CTableBody>
+                </CTable>
+              </Tab>
+              <br />
+              <Tab name="POS Terminal Request" v-if="selectedTab == 2">
+                <CTable hover responsive>
+                  <CTableHead color="light">
+                    <CTableRow>
+                      <CTableHeaderCell scope="col"
+                        >BusinessID</CTableHeaderCell
+                      >
+                      <CTableHeaderCell scope="col">PosType</CTableHeaderCell>
+                      <CTableHeaderCell scope="col">Quantity</CTableHeaderCell>
+                      <CTableHeaderCell scope="col"
+                        >Monthly Revenue
+                      </CTableHeaderCell>
+                      <CTableHeaderCell scope="col"> <CButton color="secondary" variant="outline" @click="posTerminalRequest">Create New POS Terminal Request</CButton></CTableHeaderCell>
+                    </CTableRow>
+                  </CTableHead>
+                  <CTableBody>
+                    <CTableRow
+                      v-for="data in posRequestData"
+                      :key="data.id"
+                      @click="table2(data)"
+                    >
+                      <CTableHeaderCell scope="row">{{
+                        data.businessId
+                      }}</CTableHeaderCell>
+                      <CTableDataCell>{{ data.posType}}</CTableDataCell>
+                      <CTableDataCell>{{ data.quantity }}</CTableDataCell>
+                      <CTableDataCell>{{ data.monthlyRevenue }}</CTableDataCell>
+                      <CTableDataCell>{{ data.menu }}</CTableDataCell>
+                    </CTableRow>
+                  </CTableBody>
+                </CTable>
+              </Tab>
+            </Tabs>
           </CCardBody>
         </CCard>
       </CCol>
@@ -170,8 +195,6 @@ import WidgetsStatsA from './widgets/WidgetsStatsTypeA.vue'
 import Tab from '@/components/tab.vue'
 import Tabs from '@/components/tabs.vue'
 
-
-
 export default {
   name: 'Dashboard',
   components: {
@@ -179,7 +202,7 @@ export default {
     WidgetsStatsA,
     // WidgetsStatsD,
     Tab,
-    Tabs
+    Tabs,
   },
   setup() {
     const progressGroupExample1 = [
@@ -304,203 +327,81 @@ export default {
       progressGroupExample3,
     }
   },
-  data(){
-    return{
-      selectedTab:1,
-       tabs:[ {name: 'POS Terminal', id:1},
-        {name:'POS Terminal Request', id:2}, 
-        ],
-      
-        "posData": [
-            {
-                "provider": "flutterwave",
-                "ourpassReference": "l1q8snl0",
-                "enabled": true,
-                "country": "NGN",
-                "authorisation": "2215700M",
-                "type": "android",
-                "status": "allocated",
-                "createdAt": "Tue Jul 19 2022 08:24:53 GMT+0000 (Coordinated Universal Time)",
-                "updatedAt": "Tue Jul 19 2022 19:17:19 GMT+0000 (Coordinated Universal Time)",
-                "id": 32,
-                "walletId": 1016,
-                "menu": '...'
+  data() {
+    return {
+      selectedTab: 1,
+      tabs: [
+        { name: 'POS Terminal', id: 1 },
+        { name: 'POS Terminal Request', id: 2 },
+      ],
 
-            },
-            {
-                "provider": "flutterwave",
-                "ourpassReference": "d2446qgy",
-                "enabled": false,
-                "country": "NGN",
-                "authorisation": "2215699M",
-                "type": "android",
-                "status": "pending",
-                "createdAt": "Tue Jul 19 2022 08:24:53 GMT+0000 (Coordinated Universal Time)",
-                "updatedAt": "Tue Jul 19 2022 08:24:53 GMT+0000 (Coordinated Universal Time)",
-                "id": 31,
-                "menu": '...'
-            },
-            {
-                "provider": "flutterwave",
-                "ourpassReference": "5vbtl2xv",
-                "enabled": false,
-                "country": "NGN",
-                "authorisation": "2215698M",
-                "type": "android",
-                "status": "pending",
-                "createdAt": "Tue Jul 19 2022 08:24:52 GMT+0000 (Coordinated Universal Time)",
-                "updatedAt": "Tue Jul 19 2022 08:24:52 GMT+0000 (Coordinated Universal Time)",
-                "id": 30,
-                "menu": '...'
-            },
-            {
-                "provider": "flutterwave",
-                "ourpassReference": "pdx6w0kg",
-                "enabled": false,
-                "country": "NGN",
-                "authorisation": "2215697M",
-                "type": "android",
-                "status": "pending",
-                "createdAt": "Tue Jul 19 2022 08:24:51 GMT+0000 (Coordinated Universal Time)",
-                "updatedAt": "Tue Jul 19 2022 08:24:51 GMT+0000 (Coordinated Universal Time)",
-                "id": 29,
-                "menu": '...'
-            },
-            {
-                "provider": "flutterwave",
-                "ourpassReference": "fdxkv2gi",
-                "enabled": false,
-                "country": "NGN",
-                "authorisation": "2215696M",
-                "type": "android",
-                "status": "pending",
-                "createdAt": "Tue Jul 19 2022 08:24:50 GMT+0000 (Coordinated Universal Time)",
-                "updatedAt": "Tue Jul 19 2022 08:24:50 GMT+0000 (Coordinated Universal Time)",
-                "id": 28,
-                "menu": '...'
-            },
-            {
-                "provider": "flutterwave",
-                "ourpassReference": "2li8e8iq",
-                "enabled": false,
-                "country": "NGN",
-                "authorisation": "2215695M",
-                "type": "android",
-                "status": "pending",
-                "createdAt": "Tue Jul 19 2022 08:24:49 GMT+0000 (Coordinated Universal Time)",
-                "updatedAt": "Tue Jul 19 2022 08:24:49 GMT+0000 (Coordinated Universal Time)",
-                "id": 27,
-                "menu": '...'
-            },
-            {
-                "provider": "flutterwave",
-                "ourpassReference": "ofe73dhn",
-                "enabled": false,
-                "country": "NGN",
-                "authorisation": "2215694M",
-                "type": "android",
-                "status": "pending",
-                "createdAt": "Tue Jul 19 2022 08:24:49 GMT+0000 (Coordinated Universal Time)",
-                "updatedAt": "Tue Jul 19 2022 08:24:49 GMT+0000 (Coordinated Universal Time)",
-                "id": 26,
-                "menu": '...'
-            },
-            {
-                "provider": "flutterwave",
-                "ourpassReference": "ahbibyjm",
-                "enabled": false,
-                "country": "NGN",
-                "authorisation": "2215693M",
-                "type": "android",
-                "status": "pending",
-                "createdAt": "Tue Jul 19 2022 08:24:47 GMT+0000 (Coordinated Universal Time)",
-                "updatedAt": "Tue Jul 19 2022 08:24:47 GMT+0000 (Coordinated Universal Time)",
-                "id": 25,
-                "menu": '...'
-            },
-            {
-                "provider": "flutterwave",
-                "ourpassReference": "sq1appyb",
-                "enabled": false,
-                "country": "NGN",
-                "authorisation": "2215692M",
-                "type": "android",
-                "status": "pending",
-                "createdAt": "Tue Jul 19 2022 08:24:46 GMT+0000 (Coordinated Universal Time)",
-                "updatedAt": "Tue Jul 19 2022 08:24:46 GMT+0000 (Coordinated Universal Time)",
-                "id": 24,
-                "menu": '...'
-            },
-            {
-                "provider": "flutterwave",
-                "ourpassReference": "7a1nbqq7",
-                "enabled": false,
-                "country": "NGN",
-                "authorisation": "2215691m",
-                "type": "android",
-                "status": "allocated",
-                "createdAt": "Tue Jul 19 2022 08:24:45 GMT+0000 (Coordinated Universal Time)",
-                "updatedAt": "Tue Jul 19 2022 08:24:45 GMT+0000 (Coordinated Universal Time)",
-                "id": 23,
-                "walletId": 1162,
-                "menu": '...'
-            }
-        ],
-        "posRequestData": [
-            {
-                "id": 25,
-                "businessId": 801,
-                "quantity": 5,
-                "posType": "android",
-                "monthlyRevenue": "Above ₦500,000 - ₦700,000",
-                "deliveryLocation": "100 Kudirat Abiola Way, Oregun 100212, Lagos, Nigeria",
-                "status": "pending",
-                "createdAt": "Thu Jul 14 2022 16:54:09 GMT+0000 (Coordinated Universal Time)",
-                "updatedAt": "Thu Jul 14 2022 16:54:09 GMT+0000 (Coordinated Universal Time)",
-                "dailySales": "Above 100 - 1000 sales",
-                "menu": '...',
-            },
-            {
-                "id": 22,
-                "businessId": 801,
-                "quantity": 5,
-                "posType": "android",
-                "monthlyRevenue": "Above ₦500,000 - ₦700,000",
-                "deliveryLocation": "100 Kudirat Abiola Way, Oregun 100212, Lagos, Nigeria",
-                "status": "pending",
-                "createdAt": "Thu Jul 14 2022 16:43:32 GMT+0000 (Coordinated Universal Time)",
-                "updatedAt": "Thu Jul 14 2022 16:43:32 GMT+0000 (Coordinated Universal Time)",
-                "dailySales": "Above 100 - 1000 sales",
-                "menu": '...'
-            }
-        ],
+     posData:[],
+     posRequestData:[]
     }
-  }, methods:{
+  },
+  methods: {
     table1(data) {
       this.$router.push({
-        name: "Reference",
+        name: 'Reference',
         params: { reference: data.ourpassReference },
-      });
+      })
     },
-    table2(data){
+    table2(data) {
       this.$router.push({
-        name: "Request",
-        params: { request: data.businessId },
-      });
+        name: 'Request',
+        params: { request: data.id },
+      })
     },
-    change(){
-     return this.selectedTab=1
+    change() {
+      return (this.selectedTab = 1)
     },
-    change2(){
-      return this.selectedTab=2
+    change2() {
+      return (this.selectedTab = 2)
+    },
+    posTerminal(){
+      this.$router.push({
+        name:'CreatePos',
+        // params:{posT: data.terminalId}
+      })
+    },
+    posTerminalRequest(){
+      this.$router.push({
+        name:'CreatePosRequest'
+      })
     }
-  }
+  },
 
+  async mounted(){
+    const res= await this.$http2.get('/business/pos/terminals?page=1&limit=10', {
+      headers:{
+        Authorization: 'Bearer ' + localStorage.getItem('token')
+      }
+    })
+
+    console.log(res)
+    this.posData= res.data.data.posData
+
+    this.$store.commit( 'setPosTerminal', this.posData)
+
+    const response= await this.$http2.get('/business/pos-requests?page=1&limit=10&status=completed',{
+       headers:{
+        Authorization: 'Bearer ' + localStorage.getItem('token')
+      }
+    })
+
+    console.log('the response is ', response)
+     this.posRequestData= response.data.data.posRequestData
+    
+
+  }
 }
 </script>
 <style>
-.btn{
+.btn {
   display: flex;
 }
-
 </style>
+
+
+
+

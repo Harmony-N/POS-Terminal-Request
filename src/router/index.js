@@ -33,6 +33,18 @@ const routes = [
   
       },
       {
+        path: '/dashboard/posTerminal',
+        name: 'CreatePos',
+        component: () => import('@/views/pages/createPosTerminal.vue'),
+  
+      },
+      {
+        path: '/dashboard/posRequest',
+        name: 'CreatePosRequest',
+        component: () => import('@/views/pages/createPosRequest'),
+  
+      },
+      {
         path: '/theme',
         name: 'Theme',
         redirect: '/theme/typography',

@@ -1,78 +1,79 @@
 <template>
   <div>
-   <div style="text-align:center; font-weight:800">
-    POS REQUEST
-  </div>
-  <div >
-    BusinessID: {{}}
-  </div>
-  <div>
-    Quantity: {{}}
-  </div>
-  <div>
-    Pos Type: {{}}
-  </div>
-  <div>
-    Monthly Revenue: {{}}
-  </div>
-  Delivery Location: {{}}
-  <div>
-    Daily Sales: {{}}
-  </div>
-  <div>
-    Status: {{}}
-  </div>
-  <div>
-    Date Created: {{}}
-  </div>
-  <div>
-    Update Date: {{}}
-  </div>
-  <div>
-    ID: {{}}
-  </div>
+    <div style="text-align: center; font-weight: 800; color: chocolate">
+      POS REQUEST
+    </div>
+    <div>
+      <span class="font">BusinessID:</span> {{ posRequestData.businessId }}
+    </div>
+    <hr />
+    <div>
+      <span class="font"> Quantity: </span>{{ posRequestData.quantity }}
+    </div>
+    <hr />
+    <div><span class="font"> Pos Type: </span>{{ posRequestData.posType }}</div>
+    <hr />
+    <div>
+      <span class="font"> Monthly Revenue:</span>
+      {{ posRequestData.monthlyRevenue }}
+    </div>
+    <hr />
+    <div>
+      <span class="font">Delivery Location:</span>
+      {{ posRequestData.deliveryLocation }}
+    </div>
+    <hr />
+    <div>
+      <span class="font"> Daily Sales:</span> {{ posRequestData.dailySales }}
+    </div>
+    <hr />
+    <div><span class="font">Status:</span> {{ posRequestData.status }}</div>
+    <hr />
+    <div>
+      <span class="font"> Date Created: </span>{{ posRequestData.createdAt }}
+    </div>
+    <hr />
+    <div>
+      <span class="font"> Update Date:</span> {{ posRequestData.updatedAt }}
+    </div>
+    <hr />
+    <div><span class="font">ID:</span> {{ posRequestData.id }}</div>
   </div>
 </template>
 
 <script>
 export default {
-    data(){
-        return{
-             "posRequestData": [
-            {
-                "id": 25,
-                "businessId": 801,
-                "quantity": 5,
-                "posType": "android",
-                "monthlyRevenue": "Above ₦500,000 - ₦700,000",
-                "deliveryLocation": "100 Kudirat Abiola Way, Oregun 100212, Lagos, Nigeria",
-                "status": "pending",
-                "createdAt": "Thu Jul 14 2022 16:54:09 GMT+0000 (Coordinated Universal Time)",
-                "updatedAt": "Thu Jul 14 2022 16:54:09 GMT+0000 (Coordinated Universal Time)",
-                "dailySales": "Above 100 - 1000 sales",
-                "menu": '...',
-            },
-            {
-                "id": 22,
-                "businessId": 801,
-                "quantity": 5,
-                "posType": "android",
-                "monthlyRevenue": "Above ₦500,000 - ₦700,000",
-                "deliveryLocation": "100 Kudirat Abiola Way, Oregun 100212, Lagos, Nigeria",
-                "status": "pending",
-                "createdAt": "Thu Jul 14 2022 16:43:32 GMT+0000 (Coordinated Universal Time)",
-                "updatedAt": "Thu Jul 14 2022 16:43:32 GMT+0000 (Coordinated Universal Time)",
-                "dailySales": "Above 100 - 1000 sales",
-                "menu": '...'
-            }
-        ],
-        name:'harmony'
-        }
+  data() {
+    return {
+      posRequestData: [],
+      request: '',
     }
-
+  },
+  methods: {
+    getRequest() {
+      this.request = this.$route.params.request
+      console.log(this.request)
+    },
+  },
+  async mounted() {
+    this.getRequest()
+    const response = await this.$http2.get(
+      `/business/pos-requests/${this.request}`,
+      {
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('token'),
+        },
+      },
+    )
+    console.log('the response on the page is ', response)
+    this.posRequestData = response.data.data
+    console.log(this.posRequestData)
+  },
 }
 </script>
 
-<style>
-
+<style scoped>
+.font {
+  font-weight: 700;
+}
 </style>
