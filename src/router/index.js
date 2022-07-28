@@ -4,12 +4,18 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 import DefaultLayout from '@/layouts/DefaultLayout'
 
 
+
 const routes = [
+  
   {
+  
     path: '/',
-    name: 'Home',
+
     component: DefaultLayout,
     redirect: '/dashboard',
+    meta:{
+    isAuth: true,
+    },
     children: [
       {
         path: '/dashboard',
@@ -289,7 +295,6 @@ const routes = [
   {
     path: '/pages',
     redirect: '/pages/404',
-    name: 'Pages',
     component: {
       render() {
         return h(resolveComponent('router-view'))
@@ -327,6 +332,15 @@ const router = createRouter({
     // always scroll to top
     return { top: 0 }
   },
+})
+
+router.beforeEach((to, from, next) =>{
+  const tokenPresent = localStorage.getItem('token')
+  if(to.meta.isAuth && !tokenPresent){
+    next({ name: 'Login' })
+  }else{
+    next()
+  }
 })
 
 export default router

@@ -98,8 +98,8 @@ export default {
         
 
         this.$router.push({
-          name: 'Dashboard',
-          path: '/dashboard',
+          name: 'Dashboard'
+          
         })
       }
 
