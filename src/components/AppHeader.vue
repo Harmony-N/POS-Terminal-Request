@@ -18,6 +18,7 @@
           <CNavLink href="#">Settings</CNavLink>
         </CNavItem>
       </CHeaderNav>
+      <CButton color="primary" variant="outline" @click="logout">Log Out</CButton>
     </CContainer>
     <CHeaderDivider />
     <CContainer fluid>
@@ -41,5 +42,11 @@ export default {
       logo,
     }
   },
+  methods:{
+    logout(){
+      localStorage.removeItem('token')
+      this.$router.replace({ name: 'Login'})
+    }
+  }
 }
 </script>

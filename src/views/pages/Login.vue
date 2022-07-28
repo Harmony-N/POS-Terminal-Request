@@ -101,23 +101,36 @@ export default {
           name: 'Dashboard'
           
         })
-      }
-
-      this.form.error = []
-
-      if (!this.form.email.match(pattern)) {
+      } else if(!this.form.email.match(pattern)){
+         this.form.error = []
         this.form.error.push({
           title: 'Error',
           content: 'Enter a valid email address',
         })
         console.log('error')
-      }
-      if (this.form.password.length < 5) {
+      }else if(this.form.password.length < 5){
+         this.form.error = []
         this.form.error.push({
           title: 'Error',
           content: 'Password must be greater than 5',
         })
       }
+ 
+      // this.form.error = []
+
+      // if (!this.form.email.match(pattern)) {
+      //   this.form.error.push({
+      //     title: 'Error',
+      //     content: 'Enter a valid email address',
+      //   })
+      //   console.log('error')
+      // }
+      // if (this.form.password.length < 5) {
+      //   this.form.error.push({
+      //     title: 'Error',
+      //     content: 'Password must be greater than 5',
+      //   })
+      // }
     },
   },
 }
