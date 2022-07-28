@@ -96,15 +96,25 @@
           <CCardBody>
             <Tabs>
               <div class="btn">
-                <div>
+                <div  class="btn1">
                   <CButton color="secondary" variant="ghost" @click="change"
                     >POS terminal</CButton
                   >
-                </div>
-                <div>
                   <CButton color="secondary" variant="ghost" @click="change2"
                     >POS Terminal Request</CButton
                   >
+                </div>
+                <div>
+                <div v-if="selectedTab == 1">
+                  <CButton color="secondary" variant="outline" @click="posTerminal(data)"
+                    >Create New POS Terminal</CButton
+                  >
+                </div>
+                <div v-if="selectedTab ==2">
+                  <CButton color="secondary" variant="outline" @click="posTerminalRequest"
+                    >Create New POS Terminal Request</CButton
+                  >
+                </div>
                 </div>
               </div>
               <Tab name="POS Terminal" v-if="selectedTab == 1">
@@ -121,7 +131,7 @@
                       <CTableHeaderCell scope="col"
                         >Date Created</CTableHeaderCell
                       >
-                      <CTableHeaderCell scope="col"> <CButton color="secondary" variant="outline" @click="posTerminal(data)">Create New POS Terminal</CButton></CTableHeaderCell>
+                      <CTableHeaderCell scope="col"> </CTableHeaderCell>
                     </CTableRow>
                   </CTableHead>
                   <CTableBody>
@@ -154,7 +164,7 @@
                       <CTableHeaderCell scope="col"
                         >Monthly Revenue
                       </CTableHeaderCell>
-                      <CTableHeaderCell scope="col"> <CButton color="secondary" variant="outline" @click="posTerminalRequest">Create New POS Terminal Request</CButton></CTableHeaderCell>
+                      <CTableHeaderCell scope="col"></CTableHeaderCell>
                     </CTableRow>
                   </CTableHead>
                   <CTableBody>
@@ -371,7 +381,7 @@ export default {
     }
   },
 
-  async mounted(){
+  async created(){
     const res= await this.$http2.get('/business/pos/terminals?page=1&limit=10', {
       headers:{
         Authorization: 'Bearer ' + localStorage.getItem('token')
@@ -399,6 +409,12 @@ export default {
 <style>
 .btn {
   display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.btn1{
+  display: flex;
+  flex-direction: row;
 }
 </style>
 
