@@ -123,15 +123,6 @@ export default {
       console.log(response)
     },
 
-    async approve(){
-      const requets = await this.$http2.post('/business/pos-requests/1/approve', {
-          headers: {
-            Authorization: 'Bearer ' + localStorage.getItem('token'),
-          },
-        },)
-
-        console.log(requets)
-    }
   },
   // async mounted() {
   //   this.submit()
