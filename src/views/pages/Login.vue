@@ -48,13 +48,14 @@
                   </CInputGroup>
                   <CRow>
                     <CCol :xs="6">
+                    <div class="btn4">
                       <CButton color="primary" class="px-4" @click="login">
                       <span> Login</span>               
                       </CButton>
                       <CButton v-if="loading">
                       <CSpinner component="span" size="sm" aria-hidden="true"/>
                       </CButton>
-                      
+                      </div>
                     </CCol>
                   </CRow>
                 </CForm>
@@ -144,5 +145,9 @@ export default {
   left: 130px;
   color: black;
  
+}
+.btn4{
+  display: flex;
+  flex-direction: row;
 }
 </style>
