@@ -49,8 +49,12 @@
                   <CRow>
                     <CCol :xs="6">
                       <CButton color="primary" class="px-4" @click="login">
-                        Login
+                      <span> Login</span>               
                       </CButton>
+                      <CButton v-if="loading">
+                      <CSpinner component="span" size="sm" aria-hidden="true"/>
+                      </CButton>
+                      
                     </CCol>
                   </CRow>
                 </CForm>
@@ -72,17 +76,22 @@ export default {
         email: '',
         password: '',
         error: [],
-        showtoast: false,
+        showtoast: false, 
       },
+       loading:false,
+       loginData :[]
     }
   },
 
   methods: {
     async login() {
+      // this.loading = !false
+     
+      this.spinner()
+        
       const pattern = /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/
 
       if (this.form.email.match(pattern) && this.form.password.length > 5) {
-        //  return this.$router.push('/dashboard')
 
         let response = await this.$http.post(
           'business/user-and-business-user-signin',
@@ -93,13 +102,13 @@ export default {
           },
         )
         console.log(response)
+        this.loginData = response
 
-        localStorage.setItem('token', response.data.data.token)
+        localStorage.setItem('token', this.loginData.data.data.token)
         
 
         this.$router.push({
-          name: 'Dashboard'
-          
+          name: 'Dashboard'          
         })
       } else if(!this.form.email.match(pattern)){
          this.form.error = []
@@ -115,23 +124,25 @@ export default {
           content: 'Password must be greater than 5',
         })
       }
- 
-      // this.form.error = []
-
-      // if (!this.form.email.match(pattern)) {
-      //   this.form.error.push({
-      //     title: 'Error',
-      //     content: 'Enter a valid email address',
-      //   })
-      //   console.log('error')
-      // }
-      // if (this.form.password.length < 5) {
-      //   this.form.error.push({
-      //     title: 'Error',
-      //     content: 'Password must be greater than 5',
-      //   })
-      // }
     },
+     spinner(){
+      
+        if(this.form.email == '' || this.form.password == '' ){
+          return
+        } else{
+          this.loading = true
+        }
+   
+    }
   },
 }
 </script>
+
+<style>
+.test{
+  position: absolute;
+  left: 130px;
+  color: black;
+ 
+}
+</style>
