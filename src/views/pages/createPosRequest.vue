@@ -1,7 +1,11 @@
 <template>
   <div>
+    <!-- <div  style="margin-bottom:20px;">
+      <CButton color="success" @click="approve" >Approve</CButton>
+     
+    </div> -->
     <div style="font-weight:800; text-align: center; font-size: 30px; margin-bottom: 20px;">
-        Generate POS Request
+        POS Request
     </div>
     <div class="formR">
     <CForm 
@@ -43,7 +47,7 @@
       <option selected="" disabled="" value="">
        Select an option
       </option>
-      <option>andriod</option>
+      <option>android</option>
       
     </CFormSelect>
 
@@ -95,6 +99,7 @@ export default {
       monthlyRevenue: '',
       walletID: '',
       dailySales: '',
+      approve:[]
     }
   },
   methods: {
@@ -117,10 +122,21 @@ export default {
       )
       console.log(response)
     },
+
+    async approve(){
+      const requets = await this.$http2.post('/business/pos-requests/1/approve', {
+          headers: {
+            Authorization: 'Bearer ' + localStorage.getItem('token'),
+          },
+        },)
+
+        console.log(requets)
+    }
   },
   // async mounted() {
   //   this.submit()
   // },
+
 }
 </script>
 

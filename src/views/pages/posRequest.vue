@@ -1,7 +1,12 @@
 <template>
   <div>
-    <div style="text-align: center; font-weight: 800; color: chocolate">
-      POS REQUEST
+    <div class="Crow" style="margin-bottom:20px;">
+      <CButton color="success" v-if="posRequestData.status == completed">Activate</CButton>
+     <CButton color="danger" v-else>Deactivate</CButton>
+    </div>
+  
+    <div style="text-align: center; font-weight: 800; color: chocolate; font-size: 30px;">
+      POS
     </div>
     <div>
       <span class="font">BusinessID:</span> {{ posRequestData.businessId }}
@@ -37,7 +42,7 @@
       <span class="font"> Update Date:</span> {{ posRequestData.updatedAt }}
     </div>
     <hr />
-    <div><span class="font">ID:</span> {{ posRequestData.id }}</div>
+   
   </div>
 </template>
 
@@ -65,9 +70,11 @@ export default {
         },
       },
     )
+    // console.log('the data is what', response.data.data )
     console.log('the response on the page is ', response)
     this.posRequestData = response.data.data
-    console.log(this.posRequestData)
+    
+    // console.log('data is', this.posRequestData)
   },
 }
 </script>
@@ -75,5 +82,10 @@ export default {
 <style scoped>
 .font {
   font-weight: 700;
+}
+.Crow{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
 }
 </style>
