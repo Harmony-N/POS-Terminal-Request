@@ -3,6 +3,7 @@
     <div class="Crow" style="margin-bottom:20px;">
       <CButton color="success" v-if="posRequestData.status == completed">Activate</CButton>
      <CButton color="danger" v-else>Deactivate</CButton>
+     {{posRequestData.status}}
     </div>
   
     <div style="text-align: center; font-weight: 800; color: chocolate; font-size: 30px;">
