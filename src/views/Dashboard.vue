@@ -118,7 +118,8 @@
                 </div>
               </div>
               <Tab name="POS Terminal" v-if="selectedTab == 1">
-                <CTable hover responsive>
+               <!-- <pagination :totalRecords="posData.length" :perPageOptions="[20,50,100]"/> -->
+                <CTable hover responsive >
                   <CTableHead color="light">
                     <CTableRow>
                       <CTableHeaderCell scope="col"
@@ -148,6 +149,7 @@
                       <CTableDataCell>{{ data.createdAt }}</CTableDataCell>
                       <CTableDataCell>{{ data.menu }}</CTableDataCell>
                     </CTableRow>
+                   
                   </CTableBody>
                 </CTable>
               </Tab>
@@ -176,7 +178,7 @@
                       <CTableHeaderCell scope="row">{{
                         data.businessId
                       }}</CTableHeaderCell>
-                      <CTableDataCell>{{ data.posType}}</CTableDataCell>
+                      <CTableDataCell>{{ data.posType }}</CTableDataCell>
                       <CTableDataCell>{{ data.quantity }}</CTableDataCell>
                       <CTableDataCell>{{ data.monthlyRevenue }}</CTableDataCell>
                       <CTableDataCell>{{ data.menu }}</CTableDataCell>
@@ -204,6 +206,7 @@ import WidgetsStatsA from './widgets/WidgetsStatsTypeA.vue'
 // import WidgetsStatsD from './widgets/WidgetsStatsTypeD.vue'
 import Tab from '@/components/tab.vue'
 import Tabs from '@/components/tabs.vue'
+// import pagination from './pages/pagination.vue'
 
 export default {
   name: 'Dashboard',
@@ -213,6 +216,7 @@ export default {
     // WidgetsStatsD,
     Tab,
     Tabs,
+    // pagination
   },
   setup() {
     const progressGroupExample1 = [
@@ -382,20 +386,21 @@ export default {
   },
 
   async created(){
-    const res= await this.$http2.get('/business/pos/terminals?page=1&limit=10', {
+    const res= await this.$http2.get('/admin/pos?page=1&limit=40', {
       headers:{
-        Authorization: 'Bearer ' + localStorage.getItem('token')
+        Authorization: 'Bearer ' + localStorage.getItem('token'),  'verify-admin':'test_b37c4142cc494daf90b1842713d63caa'
       }
     })
 
     console.log(res)
     this.posData= res.data.data.posData
+    console.log(this.posData.length)
 
     this.$store.commit( 'setPosTerminal', this.posData)
 
-    const response= await this.$http2.get('/business/pos-requests?page=1&limit=10&status=completed',{
+    const response= await this.$http2.get(`/admin/pos-requests?page=1&limit=10&businessId=790`,{
        headers:{
-        Authorization: 'Bearer ' + localStorage.getItem('token')
+        Authorization: 'Bearer ' + localStorage.getItem('token'),  'verify-admin':'test_b37c4142cc494daf90b1842713d63caa'
       }
     })
 
@@ -415,6 +420,10 @@ export default {
 .btn1{
   display: flex;
   flex-direction: row;
+}
+.table1{
+  overflow: auto;
+  height: 50px;
 }
 </style>
 

@@ -5,7 +5,7 @@
      
     </div> -->
     <div style="font-weight:800; text-align: center; font-size: 30px; margin-bottom: 20px;">
-        POS Request
+        POS Terminal Request
     </div>
     <div class="formR">
     <CForm 

@@ -1,5 +1,10 @@
 <template>
   <div class="pos">
+    <div class="Crow" style="margin-bottom:20px;">
+      <CButton color="success" v-if="data.status !== completed">Activate</CButton>
+     <CButton color="danger" v-else>Deactivate</CButton>
+ 
+    </div>
     <div style="text-align: center; font-weight: 800">POS TERMINAL</div>
     <div><span class="font">Provider:</span> {{ data.provider }}</div>
     <hr />
@@ -66,5 +71,10 @@ export default {
 <style>
 .font {
   font-weight: 700;
+}
+.Crow{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
 }
 </style>

@@ -51,6 +51,12 @@ const routes = [
   
       },
       {
+        path: '/dashboard/approvePos',
+        name: 'approvePos',
+        component: () => import('@/views/pages/approvePos'),
+  
+      },
+      {
         path: '/theme',
         name: 'Theme',
         redirect: '/theme/typography',

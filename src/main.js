@@ -5,12 +5,23 @@ import store from './store'
 import axios from 'axios'
 
 
+
+
 import CoreuiVue from '@coreui/vue'
 import CIcon from '@coreui/icons-vue'
 import { iconsSet as icons } from '@/assets/icons'
 import DocsCallout from '@/components/DocsCallout'
 import DocsExample from '@/components/DocsExample'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
+import { faAnglesRight} from '@fortawesome/free-solid-svg-icons'
+import { faAnglesLeft} from '@fortawesome/free-solid-svg-icons'
+import { faAngleRight} from '@fortawesome/free-solid-svg-icons'
+import { faAngleLeft} from '@fortawesome/free-solid-svg-icons'
+import { faUserSecret } from '@fortawesome/free-solid-svg-icons'
+
+library.add(faAnglesRight,faAnglesLeft,faAngleRight,faAngleLeft,faUserSecret)
 // axios.defaults.headers.common['Authorization']= 'Bearer' + localStorage.setItem('token');
 
 const axiosInstance = axios.create({
@@ -32,5 +43,6 @@ app.provide('icons', icons)
 app.component('CIcon', CIcon)
 app.component('DocsCallout', DocsCallout)
 app.component('DocsExample', DocsExample)
+app.component('font-awesome-icon', FontAwesomeIcon)
 
 app.mount('#app')
