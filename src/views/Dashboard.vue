@@ -118,8 +118,9 @@
                 </div>
               </div>
               <Tab name="POS Terminal" v-if="selectedTab == 1">
-               <!-- <pagination :totalRecords="posData.length" :perPageOptions="[20,50,100]"/> -->
-                <CTable hover responsive >
+               <pagination   v-if="posData" @next='nextPage' @prev="prevPage" :page="page" :totalPages="totalPages" :pending="pending"/>
+               
+                <CTable hover responsive :posData="computedData">
                   <CTableHead color="light">
                     <CTableRow>
                       <CTableHeaderCell scope="col"
@@ -132,22 +133,24 @@
                       <CTableHeaderCell scope="col"
                         >Date Created</CTableHeaderCell
                       >
-                      <CTableHeaderCell scope="col"> </CTableHeaderCell>
+                      <CTableHeaderCell scope="col"> Status </CTableHeaderCell>
                     </CTableRow>
                   </CTableHead>
                   <CTableBody>
                     <CTableRow
+                    
                       v-for="data in posData"
                       :key="data.id"
                       @click="table1(data)"
                     >
+               
                       <CTableHeaderCell scope="row">{{
                         data.ourpassReference
-                      }}</CTableHeaderCell>
+                      }}</CTableHeaderCell  >
                       <CTableDataCell>{{ data.authorisation }}</CTableDataCell>
                       <CTableDataCell>{{ data.country }}</CTableDataCell>
                       <CTableDataCell>{{ data.createdAt }}</CTableDataCell>
-                      <CTableDataCell>{{ data.menu }}</CTableDataCell>
+                      <CTableDataCell :class="data.status.toLowerCase() === 'allocated' ? 'status-green' : 'status-yellow' ">{{ data.status }}</CTableDataCell>
                     </CTableRow>
                    
                   </CTableBody>
@@ -155,8 +158,9 @@
               </Tab>
               <br />
               <Tab name="POS Terminal Request" v-if="selectedTab == 2">
+               <pagination   v-if="posRequestData" @next='nextPage' @prev="prevPage" :page="page" :totalPages="totalPages" :pending="pending"/>
                 <CTable hover responsive>
-                  <CTableHead color="light">
+                  <CTableHead color="light" >
                     <CTableRow>
                       <CTableHeaderCell scope="col"
                         >BusinessID</CTableHeaderCell
@@ -166,7 +170,7 @@
                       <CTableHeaderCell scope="col"
                         >Monthly Revenue
                       </CTableHeaderCell>
-                      <CTableHeaderCell scope="col"></CTableHeaderCell>
+                      <CTableHeaderCell scope="col">Status</CTableHeaderCell>
                     </CTableRow>
                   </CTableHead>
                   <CTableBody>
@@ -181,7 +185,7 @@
                       <CTableDataCell>{{ data.posType }}</CTableDataCell>
                       <CTableDataCell>{{ data.quantity }}</CTableDataCell>
                       <CTableDataCell>{{ data.monthlyRevenue }}</CTableDataCell>
-                      <CTableDataCell>{{ data.menu }}</CTableDataCell>
+                      <CTableDataCell :class="data.status.toLowerCase() === 'completed' ? 'status-green' : 'status-yellow' ">{{ data.status }}</CTableDataCell>
                     </CTableRow>
                   </CTableBody>
                 </CTable>
@@ -206,7 +210,9 @@ import WidgetsStatsA from './widgets/WidgetsStatsTypeA.vue'
 // import WidgetsStatsD from './widgets/WidgetsStatsTypeD.vue'
 import Tab from '@/components/tab.vue'
 import Tabs from '@/components/tabs.vue'
-// import pagination from './pages/pagination.vue'
+import pagination from './pages/pagination.vue'
+
+const perPageOptions = [40,50,100]
 
 export default {
   name: 'Dashboard',
@@ -216,7 +222,7 @@ export default {
     // WidgetsStatsD,
     Tab,
     Tabs,
-    // pagination
+    pagination
   },
   setup() {
     const progressGroupExample1 = [
@@ -348,9 +354,14 @@ export default {
         { name: 'POS Terminal', id: 1 },
         { name: 'POS Terminal Request', id: 2 },
       ],
+      pagination:{ page:1, perpage: perPageOptions[0] },
+      perPageOptions,
 
      posData:[],
-     posRequestData:[]
+     posRequestData:[],
+     page: 1,
+     totalPages: null,
+     pending: false
     }
   },
   methods: {
@@ -382,22 +393,55 @@ export default {
       this.$router.push({
         name:'CreatePosRequest'
       })
-    }
-  },
-
-  async created(){
-    const res= await this.$http2.get('/admin/pos?page=1&limit=40', {
+    },
+    nextPage(data){
+      this.page = data
+      this.getPosData()
+    },
+    prevPage(data){
+       this.page = data
+       this.getPosData()
+    },
+    async getPosData(){
+       try {
+        this.pending=true
+       
+      const res= await this.$http2.get(`/admin/pos?page=${this.page}&limit=40`, {
       headers:{
         Authorization: 'Bearer ' + localStorage.getItem('token'),  'verify-admin':'test_b37c4142cc494daf90b1842713d63caa'
       }
     })
-
+    
     console.log(res)
+    this.totalPages = Math.round(res.data.data.totalCount / 40)
     this.posData= res.data.data.posData
     console.log(this.posData.length)
 
     this.$store.commit( 'setPosTerminal', this.posData)
+    this.pending = false
+       } catch (error) {
+        console.log(error)
+       }
+       
+    }
+   
+  },
+  computed:{
+    computedData(){
+      if(!this.posData) return []
+      else{
+    const firstIndex = (this.pagination.page - 1) * this.pagination.perpage
+    const lastIndex = this.pagination.page * this.pagination.perpage
 
+    console.log('the index are', firstIndex, lastIndex)
+    return this.posData.slice(firstIndex, lastIndex)
+      }
+    }
+  },
+
+  async created(){
+    this.getPosData()
+    
     const response= await this.$http2.get(`/admin/pos-requests?page=1&limit=10&businessId=790`,{
        headers:{
         Authorization: 'Bearer ' + localStorage.getItem('token'),  'verify-admin':'test_b37c4142cc494daf90b1842713d63caa'
@@ -425,6 +469,17 @@ export default {
   overflow: auto;
   height: 50px;
 }
+.status-green{
+  color: green;
+ 
+}
+.status-yellow{
+  color: rgb(250, 250, 176);
+ 
+}
+/* .pagination{
+  margin-top: 10px;
+} */
 </style>
 
 
