@@ -4,7 +4,7 @@
 <CButton color="success" @click="() => { visibleLiveDemo = true }" >APPROVE REQUEST</CButton>
     </div>
     
-    <CAlert color="danger" v-if="error">ERROR</CAlert>
+    <CAlert color="danger" v-if="error2">ERROR</CAlert>
     <div v-else > 
   <CModal :visible="visibleLiveDemo" @close="() => { visibleLiveDemo = false }">
     <CModalHeader>
@@ -36,6 +36,32 @@
         label="Serial Number:"
         style="width: 470px;margin-bottom: 15px;"
         v-model="serialNumber"
+        required
+         minlength="8"
+         maxlength="14"
+        feedbackInvalid="Please enter a terminal ID of length 8."   
+        placeholder="Enter a valid serial number"    
+      />
+       <CFormInput
+       v-if="quantity == 2 || quantity == 3"
+        type="number"
+        id="exampleFormControlInput1"
+        label="Serial Number Two:"
+        style="width: 470px;margin-bottom: 15px;"
+        v-model="serialNumberTwo"
+        required
+         minlength="8"
+         maxlength="14"
+        feedbackInvalid="Please enter a terminal ID of length 8."   
+        placeholder="Enter a valid serial number"    
+      />
+      <CFormInput
+       v-if="quantity == 3"
+        type="number"
+        id="exampleFormControlInput1"
+        label="Serial Number Three:"
+        style="width: 470px;margin-bottom: 15px;"
+        v-model="serialNumberThree"
         required
          minlength="8"
          maxlength="14"
@@ -94,6 +120,47 @@
     </div>
     <hr />
    
+
+    <div style="margin-top:100px" v-if="posRequestData.status == 'completed'">
+    
+    <span class="p">POS DATA</span>
+    
+      <CTable>
+  <CTableHead>
+    <CTableRow>
+      <CTableHeaderCell scope="col">Terminal ID</CTableHeaderCell>
+      <CTableHeaderCell scope="col">Country</CTableHeaderCell>
+      
+      <CTableHeaderCell scope="col">Enabled</CTableHeaderCell>
+      <CTableHeaderCell scope="col">Ourpass Reference</CTableHeaderCell>
+      <CTableHeaderCell scope="col">Provider</CTableHeaderCell>
+      <CTableHeaderCell scope="col">Type</CTableHeaderCell>
+      <CTableHeaderCell scope="col">Wallet ID</CTableHeaderCell>
+      <CTableHeaderCell scope="col">Status</CTableHeaderCell>
+      <CTableHeaderCell scope="col">ID</CTableHeaderCell>
+     
+     
+    </CTableRow>
+  </CTableHead>
+  <CTableBody>
+    
+    <CTableRow color="dark" v-for="data in completeddata" :key="data.id">
+      <CTableHeaderCell scope="row">{{data.authorisation}}</CTableHeaderCell>
+      <CTableDataCell>{{data.country}}</CTableDataCell>
+     
+      <CTableHeaderCell scope="row">{{data.enabled}}</CTableHeaderCell>
+      <CTableDataCell>{{data.ourpassReference}}</CTableDataCell>
+      <CTableDataCell>{{data.provider}}</CTableDataCell>
+      <CTableHeaderCell scope="row">{{data.type}}</CTableHeaderCell>
+      <CTableDataCell>{{data.walletId}}</CTableDataCell>
+      <CTableDataCell>{{data.status}}</CTableDataCell>
+      <CTableHeaderCell scope="row">{{data.id}}</CTableHeaderCell>
+      
+    </CTableRow>
+  </CTableBody>
+</CTable>
+    </div>
+   
   </div>
 </template>
 
@@ -104,9 +171,13 @@ export default {
       posRequestData: [],
       request: '',
       visibleLiveDemo: false,
-      error: false,
-      quantity: '',
+      error2: false,
+      quantity: 0,
       serialNumber:'',
+      serialNumberTwo:'',
+      serialNumberThree:'',
+      completeddata: []
+      
       
     }
   },
@@ -117,21 +188,48 @@ export default {
     },
     async submit(){
       try{
-        const response = await this.$http2.post(`admin/pos-requests/${this.request}/approve`, {
+        if(this.quantity == 1){
+          const response = await this.$http2.post(`admin/pos-requests/${this.request}/approve`, {
             quantity: Number(this.quantity),
-            serialNumbers: [this.serialNumber],
+            serialNumbers: [this.serialNumber]
         },{
            headers:{
         Authorization: 'Bearer ' + localStorage.getItem('token'),  'verify-admin':'test_b37c4142cc494daf90b1842713d63caa'
       },
         },)
         console.log('yea',response)
-      } catch(e){
-        this.error = true;
-      }
         }
+        if(this.quantity == 2){
+          const response = await this.$http2.post(`admin/pos-requests/${this.request}/approve`, {
+            quantity: Number(this.quantity),
+            serialNumbers: [this.serialNumber, this.serialNumberTwo],
+        },{
+           headers:{
+        Authorization: 'Bearer ' + localStorage.getItem('token'),  'verify-admin':'test_b37c4142cc494daf90b1842713d63caa'
+      },
+        },)
+        console.log('yea',response)
+        }
+        if(this.quantity == 3){
+          const response = await this.$http2.post(`admin/pos-requests/${this.request}/approve`, {
+            quantity: Number(this.quantity),
+            serialNumbers: [this.serialNumber, this.serialNumberTwo, this.serialNumberThree],
+        },{
+           headers:{
+        Authorization: 'Bearer ' + localStorage.getItem('token'),  'verify-admin':'test_b37c4142cc494daf90b1842713d63caa'
+      },
+        },)
+        console.log('yea',response)
+        }
+      } catch(e){
+        this.error2 = true;
+        console.log('error')
+      
+      }
+        },
   },
   async mounted() {
+   
     this.getRequest()
     const response = await this.$http2.get(
       `/admin/pos-requests/${this.request}`,
@@ -142,8 +240,9 @@ export default {
       },
     )
     // console.log('the data is what', response.data.data )
-    console.log('the response on the page is ', response)
+    console.log('the response of pos on the page is ', response.data.data.pos)
     this.posRequestData = response.data.data
+    this.completeddata = response.data.data.pos
     
     // console.log('data is', this.posRequestData)
   },
@@ -158,5 +257,13 @@ export default {
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
+}
+.p{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
+  color: green;
+  font-weight: 800;
 }
 </style>

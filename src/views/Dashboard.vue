@@ -118,6 +118,7 @@
                 </div>
               </div>
               <Tab name="POS Terminal" v-if="selectedTab == 1">
+
                <pagination   v-if="posData" @next='nextPage' @prev="prevPage" :page="page" :totalPages="totalPages" :pending="pending"/>
                
                 <CTable hover responsive :posData="computedData">
@@ -127,7 +128,7 @@
                         >OurpassReference</CTableHeaderCell
                       >
                       <CTableHeaderCell scope="col"
-                        >Authorisation</CTableHeaderCell
+                        >Terminal ID</CTableHeaderCell
                       >
                       <CTableHeaderCell scope="col">Country</CTableHeaderCell>
                       <CTableHeaderCell scope="col"
@@ -158,7 +159,7 @@
               </Tab>
               <br />
               <Tab name="POS Terminal Request" v-if="selectedTab == 2">
-               <pagination   v-if="posRequestData" @next='nextPage' @prev="prevPage" :page="page" :totalPages="totalPages" :pending="pending"/>
+               <pagination   v-if="posRequestData" @next='nextPage' @prev="prevPage" :page="page" :totalPages="totalpages2" :pending="pending"/>
                 <CTable hover responsive>
                   <CTableHead color="light" >
                     <CTableRow>
@@ -361,7 +362,9 @@ export default {
      posRequestData:[],
      page: 1,
      totalPages: null,
-     pending: false
+     totalpages2: null,
+     pending: false,
+     date: null
     }
   },
   methods: {
@@ -423,7 +426,8 @@ export default {
         console.log(error)
        }
        
-    }
+    },
+    
    
   },
   computed:{
@@ -442,6 +446,7 @@ export default {
   async created(){
     this.getPosData()
     
+    
     const response= await this.$http2.get(`/admin/pos-requests?page=1&limit=10&businessId=790`,{
        headers:{
         Authorization: 'Bearer ' + localStorage.getItem('token'),  'verify-admin':'test_b37c4142cc494daf90b1842713d63caa'
@@ -449,6 +454,7 @@ export default {
     })
 
     console.log('the response is ', response)
+    this.totalpages2 = Math.round(response.data.data.totalCount / 8)
      this.posRequestData= response.data.data.posRequestData
     
 
@@ -474,7 +480,7 @@ export default {
  
 }
 .status-yellow{
-  color: rgb(250, 250, 176);
+  color:#E3AA2B
  
 }
 /* .pagination{

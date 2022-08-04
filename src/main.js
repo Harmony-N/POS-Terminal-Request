@@ -3,6 +3,9 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import axios from 'axios'
+import moment from 'moment';
+
+
 
 
 
@@ -44,5 +47,8 @@ app.component('CIcon', CIcon)
 app.component('DocsCallout', DocsCallout)
 app.component('DocsExample', DocsExample)
 app.component('font-awesome-icon', FontAwesomeIcon)
+moment().format();
+
+
 
 app.mount('#app')
