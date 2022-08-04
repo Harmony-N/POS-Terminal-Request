@@ -23,51 +23,28 @@
      style="width: 470px;margin-bottom: 15px;"
     >
       <option selected="" disabled="" value="" >
-       {{posRequestData.quantity}}
+       {{quantity}}
       </option>
-      <option value=1>1</option>
-       <option value=2>2</option>
-        <option value=3>3</option>
+      <option value='1' >1</option>
+       <option value='2' >2</option>
+        <option value='3' >3</option>
     </CFormSelect>
 
       <CFormInput
+     
+      v-for="(i, index) in +quantity" :key="index.id"
         type="number"
         id="exampleFormControlInput1"
-        label="Serial Number:"
+        label="Serial Number One:"
         style="width: 470px;margin-bottom: 15px;"
-        v-model="serialNumber"
+        v-model="serialNumber[i]"
         required
          minlength="8"
          maxlength="14"
         feedbackInvalid="Please enter a terminal ID of length 8."   
         placeholder="Enter a valid serial number"    
       />
-       <CFormInput
-       v-if="posRequestData.quantity == 2 || posRequestData.quantity == 3"
-        type="number"
-        id="exampleFormControlInput1"
-        label="Serial Number Two:"
-        style="width: 470px;margin-bottom: 15px;"
-        v-model="serialNumberTwo"
-        required
-         minlength="8"
-         maxlength="14"
-        feedbackInvalid="Please enter a terminal ID of length 8."   
-        placeholder="Enter a valid serial number"    
-      />
-      <CFormInput
-       v-if="posRequestData.quantity == 3"
-        type="number"
-        id="exampleFormControlInput1"
-        label="Serial Number Three:"
-        style="width: 470px;margin-bottom: 15px;"
-        v-model="serialNumberThree"
-        required
-         minlength="8"
-         maxlength="14"
-        feedbackInvalid="Please enter a terminal ID of length 8."   
-        placeholder="Enter a valid serial number"    
-      />
+      
       
       </CForm>
 
@@ -172,11 +149,14 @@ export default {
       request: '',
       visibleLiveDemo: false,
       error2: false,
-      quantity: 0,
-      serialNumber:'',
+      quantity: '',
+      serialNumber:[],
       serialNumberTwo:'',
       serialNumberThree:'',
-      completeddata: []
+      completeddata: [],
+      one: false,
+      two: false,
+      three: false
       
       
     }
@@ -188,49 +168,30 @@ export default {
     },
     async submit(){
       try{
-        if(this.quantity == 1){
+      
           const response = await this.$http2.post(`admin/pos-requests/${this.request}/approve`, {
             quantity: Number(this.quantity),
-            serialNumbers: [this.serialNumber]
+            serialNumbers: this.serialNumber.filter(serialNumber => serialNumber )
         },{
            headers:{
         Authorization: 'Bearer ' + localStorage.getItem('token'),  'verify-admin':'test_b37c4142cc494daf90b1842713d63caa'
       },
         },)
         console.log('yea',response)
-        }
-        if(this.quantity == 2){
-          const response = await this.$http2.post(`admin/pos-requests/${this.request}/approve`, {
-            quantity: Number(this.quantity),
-            serialNumbers: [this.serialNumber, this.serialNumberTwo],
-        },{
-           headers:{
-        Authorization: 'Bearer ' + localStorage.getItem('token'),  'verify-admin':'test_b37c4142cc494daf90b1842713d63caa'
-      },
-        },)
-        console.log('yea',response)
-        }
-        if(this.quantity == 3){
-          const response = await this.$http2.post(`admin/pos-requests/${this.request}/approve`, {
-            quantity: Number(this.quantity),
-            serialNumbers: [this.serialNumber, this.serialNumberTwo, this.serialNumberThree],
-        },{
-           headers:{
-        Authorization: 'Bearer ' + localStorage.getItem('token'),  'verify-admin':'test_b37c4142cc494daf90b1842713d63caa'
-      },
-        },)
-        console.log('yea',response)
-        }
+       
+       
       } catch(e){
         this.error2 = true;
         console.log('error')
       
       }
         },
+        
   },
-  async mounted() {
-   
-    this.getRequest()
+  async created() {
+      try{
+        this.getRequest()
+     this.request = this.$route.params.request
     const response = await this.$http2.get(
       `/admin/pos-requests/${this.request}`,
       {
@@ -243,8 +204,15 @@ export default {
     console.log('the response of pos on the page is ', response.data.data.pos)
     this.posRequestData = response.data.data
     this.completeddata = response.data.data.pos
+
+    this.quantity = this.posRequestData.quantity.toString()
+
     
     // console.log('data is', this.posRequestData)
+      } catch(e){
+        console.log('This is the error')
+      }
+    
   },
 }
 </script>
