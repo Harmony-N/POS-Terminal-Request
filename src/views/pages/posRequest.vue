@@ -23,7 +23,7 @@
      style="width: 470px;margin-bottom: 15px;"
     >
       <option selected="" disabled="" value="" >
-       Select an option
+       {{posRequestData.quantity}}
       </option>
       <option value=1>1</option>
        <option value=2>2</option>
@@ -43,7 +43,7 @@
         placeholder="Enter a valid serial number"    
       />
        <CFormInput
-       v-if="quantity == 2 || quantity == 3"
+       v-if="posRequestData.quantity == 2 || posRequestData.quantity == 3"
         type="number"
         id="exampleFormControlInput1"
         label="Serial Number Two:"
@@ -56,7 +56,7 @@
         placeholder="Enter a valid serial number"    
       />
       <CFormInput
-       v-if="quantity == 3"
+       v-if="posRequestData.quantity == 3"
         type="number"
         id="exampleFormControlInput1"
         label="Serial Number Three:"
