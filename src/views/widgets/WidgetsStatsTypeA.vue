@@ -3,12 +3,11 @@
     <CCol :xs="3">
       <CWidgetStatsA class="mb-4" color="primary">
         <template #value
-          >26K
-          <span class="fs-6 fw-normal">
-            (-12.4% <CIcon icon="cil-arrow-bottom" />)
-          </span>
+          >POS TERMINALS
+          
         </template>
-        <template #title>Users</template>
+        <template #title>Number of Terminals: {{count}}</template>
+       
         <template #action>
           <CDropdown placement="bottom-end">
             <CDropdownToggle
@@ -98,12 +97,10 @@
     <CCol :xs="3">
       <CWidgetStatsA class="mb-4" color="info">
         <template #value
-          >$6.200
-          <span class="fs-6 fw-normal">
-            (40.9% <CIcon icon="cil-arrow-top" />)
-          </span>
+          >POS REQUEST
+          
         </template>
-        <template #title>Income</template>
+        <template #title>Number of Request: {{count1}}</template>
         <template #action>
           <CDropdown placement="bottom-end">
             <CDropdownToggle
@@ -375,5 +372,6 @@ export default {
   components: {
     CChart,
   },
+  props:['count','posData', 'count1']
 }
 </script>

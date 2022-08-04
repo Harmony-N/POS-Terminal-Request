@@ -1,6 +1,6 @@
 <template>
   <div>
-    <WidgetsStatsA />
+    <WidgetsStatsA :posData="posData" :count="count" :count1="count1" />
     <CRow>
       <CCol :md="12">
         <CCard class="mb-4">
@@ -364,7 +364,8 @@ export default {
      totalPages: null,
      totalpages2: null,
      pending: false,
-     date: null
+     count: 0,
+     count1:0
     }
   },
   methods: {
@@ -417,6 +418,8 @@ export default {
     
     console.log(res)
     this.totalPages = Math.round(res.data.data.totalCount / 40)
+    console.log('the total count is', res.data.data.totalCount  )
+    this.count = res.data.data.totalCount
     this.posData= res.data.data.posData
     console.log(this.posData.length)
 
@@ -455,6 +458,7 @@ export default {
 
     console.log('the response is ', response)
     this.totalpages2 = Math.round(response.data.data.totalCount / 8)
+    this.count1 = response.data.data.totalCount
      this.posRequestData= response.data.data.posRequestData
     
 
