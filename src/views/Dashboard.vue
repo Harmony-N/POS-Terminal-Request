@@ -111,9 +111,9 @@
                   >
                 </div>
                 <div v-if="selectedTab ==2">
-                  <CButton color="secondary" variant="outline" @click="posTerminalRequest"
+                  <!-- <CButton color="secondary" variant="outline" @click="posTerminalRequest"
                     >Create New POS Terminal Request</CButton
-                  >
+                  > -->
                 </div>
                 </div>
               </div>
