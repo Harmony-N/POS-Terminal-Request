@@ -35,7 +35,7 @@
       v-for="(i, index) in +quantity" :key="index.id"
         type="number"
         id="exampleFormControlInput1"
-        label="Serial Number One:"
+        label="Serial Number:"
         style="width: 470px;margin-bottom: 15px;"
         v-model="serialNumber[i]"
         required
