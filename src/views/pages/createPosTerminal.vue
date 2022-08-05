@@ -1,5 +1,6 @@
 <template>
   <div>
+     <CAlert color="danger" v-if="modalError !== ''">{{modalError}}</CAlert>
     <div style="font-weight:800; text-align: center; font-size: 30px;margin-bottom: 20px;">
         Create New POS Terminal
     </div>
@@ -87,13 +88,15 @@ export default {
       country: '',
       type: '',
       serialNumber: '',
+      modalError: ''
     }
   },
 
   methods: {
     async submit() {
-      const response = await this.$http2.post(
-        '/business/pos',
+      try{
+        const response = await this.$http2.post(
+        '/admin/pos',
         {
           terminalId: this.terminalID,
           provider: this.provider,
@@ -108,11 +111,24 @@ export default {
         },
       )
       console.log('the response of the terminal is', response)
+      } catch(e){
+        console.log(e)
+        this.modalError =  this.getHttpError(e)
+      }
+    },
+        getHttpError(error){
+            if (error.response) {
+          return error.response.data.error;
+        }
+        if (error.request) {
+          return error.request.message;
+        }
+        return error.message;
+
+
     },
   },
-  // async mounted() {
-  //   this.submit()
-  // },
+  
 }
 </script>
 
