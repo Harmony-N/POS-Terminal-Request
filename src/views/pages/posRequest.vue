@@ -8,28 +8,34 @@
       <CButton
         color="success"
         @click="
-          () => {
-            visibleLiveDemo = true
-          }
+          buttonClicked()
         "
         >APPROVE REQUEST</CButton
       >
     </div>
 
-    <CAlert color="danger" v-if="error2">ERROR</CAlert>
+    <CAlert color="danger" v-if="error2 !== ''">{{error2}}</CAlert>
     <div v-else>
       <CModal
+        
         :visible="visibleLiveDemo"
         @close="
           () => {
             visibleLiveDemo = false
+            this.serialNumber = []
+            // this.quantity = ''
+            this.modalError = ''
+            this.quantity = this.requestQuantity
           }
         "
       >
+      
         <CModalHeader>
+
           <CModalTitle>APPROVE POS REQUEST</CModalTitle>
         </CModalHeader>
         <CModalBody>
+          <CAlert color="danger" v-if="modalError !== ''">{{modalError}}</CAlert>
           <CForm novalidate>
             <CFormSelect
               aria-describedby="validationCustom04Feedback"
@@ -171,7 +177,7 @@ export default {
       posRequestData: [],
       request: '',
       visibleLiveDemo: false,
-      error2: false,
+      error2: '',
       quantity: '',
       serialNumber: [],
       serialNumberTwo: '',
@@ -180,6 +186,8 @@ export default {
       one: false,
       two: false,
       three: false,
+      modalError: '',
+      requestQuantity: ''
     }
   },
   methods: {
@@ -206,9 +214,28 @@ export default {
         )
         console.log('yea', response)
       } catch (e) {
-        this.error2 = true
+        // this.error2 = this.getHttpError(e)
+        this.modalError =  this.getHttpError(e)
         console.log('error')
+        // console.log(e.response.data)
+        console.log(this.getHttpError(e))
       }
+    },
+    getHttpError(error){
+            if (error.response) {
+          return error.response.data.error;
+        }
+        if (error.request) {
+          return error.request.message;
+        }
+        return error.message;
+
+
+    },
+    buttonClicked(){
+            this.modalError = ''
+            this.visibleLiveDemo = true
+            
     },
     async getPOSDetailsById(id){
         try {
@@ -228,6 +255,8 @@ export default {
       this.completeddata = response.data.data.pos
 
       this.quantity = this.posRequestData.quantity.toString()
+      this.requestQuantity = this.posRequestData.quantity.toString()
+      this.request = id
 
       // console.log('data is', this.posRequestData)
     } catch (e) {
