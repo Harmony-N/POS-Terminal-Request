@@ -23,7 +23,6 @@
           () => {
             visibleLiveDemo = false
             this.serialNumber = []
-            // this.quantity = ''
             this.modalError = ''
             this.quantity = this.requestQuantity
           }
