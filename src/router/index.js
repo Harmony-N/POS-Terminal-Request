@@ -33,7 +33,7 @@ const routes = [
   
       },
       {
-        path: '/dashboard/:request',
+        path: '/dashboard/pos-request/:request',
         name: 'Request',
         component: () => import('@/views/pages/posRequest.vue'),
   

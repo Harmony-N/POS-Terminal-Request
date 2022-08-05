@@ -150,7 +150,7 @@
                       }}</CTableHeaderCell  >
                       <CTableDataCell>{{ data.authorisation }}</CTableDataCell>
                       <CTableDataCell>{{ data.country }}</CTableDataCell>
-                      <CTableDataCell>{{ data.createdAt }}</CTableDataCell>
+                      <CTableDataCell>{{ $moment(data.createdAt).format('MMMM Do YYYY') }}</CTableDataCell>
                       <CTableDataCell :class="data.status.toLowerCase() === 'allocated' ? 'status-green' : 'status-yellow' ">{{ data.status }}</CTableDataCell>
                     </CTableRow>
                    
