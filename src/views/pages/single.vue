@@ -24,9 +24,9 @@
     <hr />
     <div><span class="font">Status:</span> {{ data.status }}</div>
     <hr />
-    <div><span class="font">Date Created:</span> {{ data.createdAt }}</div>
+    <div><span class="font">Date Created:</span> {{ $moment(data.createdAt).format('MMMM Do YYYY')  }}</div>
     <hr />
-    <div><span class="font">Update Date:</span> {{ data.updatedAt }}</div>
+    <div><span class="font">Update Date:</span> {{ $moment(data.updatedAt).format('MMMM Do YYYY') }}</div>
     <hr />
     <div><span class="font">ID:</span> {{ data.id }}</div>
   </div>
