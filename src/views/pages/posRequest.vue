@@ -122,11 +122,11 @@
     <div><span class="font">Status:</span> {{ posRequestData.status }}</div>
     <hr />
     <div>
-      <span class="font"> Date Created: </span>{{ posRequestData.createdAt }}
+      <span class="font"> Date Created: </span>{{ $moment(posRequestData.createdAt).format('MMMM Do YYYY') }}
     </div>
     <hr />
     <div>
-      <span class="font"> Update Date:</span> {{ posRequestData.updatedAt }}
+      <span class="font"> Update Date:</span> {{ $moment(posRequestData.updatedAt).format('MMMM Do YYYY') }}
     </div>
     <hr />
 
