@@ -150,7 +150,7 @@
                       }}</CTableHeaderCell  >
                       <CTableDataCell>{{ data.authorisation }}</CTableDataCell>
                       <CTableDataCell>{{ data.country }}</CTableDataCell>
-                      <CTableDataCell>{{ $moment(data.createdAt).format('MMMM Do YYYY') }}</CTableDataCell>
+                      <CTableDataCell>{{ $moment(data.createdAt).format('MMMM Do YYYY ') }}</CTableDataCell>
                       <CTableDataCell :class="data.status.toLowerCase() === 'allocated' ? 'status-green' : 'status-yellow' ">{{ data.status }}</CTableDataCell>
                     </CTableRow>
                    
@@ -450,14 +450,14 @@ export default {
     this.getPosData()
     
     
-    const response= await this.$http2.get(`/admin/pos-requests?page=1&limit=10&businessId=790`,{
+    const response= await this.$http2.get(`/admin/pos-requests?page=1&limit=10`,{
        headers:{
         Authorization: 'Bearer ' + localStorage.getItem('token'),  'verify-admin':'test_b37c4142cc494daf90b1842713d63caa'
       }
     })
 
     console.log('the response is ', response)
-    this.totalpages2 = Math.round(response.data.data.totalCount / 8)
+    this.totalpages2 = Math.round(response.data.data.totalCount / 26)
     this.count1 = response.data.data.totalCount
      this.posRequestData= response.data.data.posRequestData
     
