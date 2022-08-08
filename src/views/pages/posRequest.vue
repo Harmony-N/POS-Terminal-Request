@@ -106,22 +106,6 @@
      <div>
       <span class="font">Business Description:</span> {{ business.description }}
     </div>
-    <hr>
-     <div>
-      <span class="font">Business Permission:</span> {{business.permission }}
-    </div>
-    <hr>
-     <div>
-      <span class="font">Business Service:</span> {{business.service}}
-    </div>
-   <hr>
-     <div>
-      <span class="font">Business Slug:</span> {{ business.bstab}}
-    </div>
-    <hr>
-    <div>
-      <span class="font">BusinessID:</span> {{ posRequestData.businessId }}
-    </div>
     <hr />
     <div>
       <span class="font"> Quantity: </span>{{ posRequestData.quantity }}
@@ -280,7 +264,7 @@ export default {
       )
       // console.log('the data is what', response.data.data )
       console.log('the response of pos on the page is ', response.data.data.pos)
-      console.log('response', response.data.data.business)
+      console.log('response', response.data.data)
       this.posRequestData = response.data.data
       this.completeddata = response.data.data.pos
       this.business = response.data.data.business
