@@ -161,7 +161,7 @@
         <CTableBody>
           <CTableRow color="dark" v-for="data in completeddata" :key="data.id">
           <CTableHeaderCell scope="row">{{
-              data.authorisation
+              data.serialNumber
             }}</CTableHeaderCell>
             <CTableHeaderCell scope="row">{{
               data.authorisation

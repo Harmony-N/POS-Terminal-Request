@@ -134,12 +134,12 @@
                         >search</CButton
                       >
                       <CToaster placement="top-end">
-                          <CToast v-for="(toast, index) in toasts" :key="index.id">
+                          <CToast v-for="(toast, index) in toasts" :key="index.id" color="danger" class="text-white">
                             <CToastHeader closeButton>
                             <span class="me-auto fw-bold">{{toast.title}}</span>
                             
                             </CToastHeader>
-                            <CToastBody>
+                            <CToastBody >
                               {{ toast.content }}
                             </CToastBody>  
                           </CToast>
@@ -426,7 +426,7 @@ export default {
         this.posRequestData = response.data.data.posRequestData
       } catch (e) {
         this.toasts.push({
-          title:' Error',
+          title:' WARNING!!!',
           content: this.getHttpError(e)
         })
       }
