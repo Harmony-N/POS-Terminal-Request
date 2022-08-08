@@ -29,14 +29,14 @@ library.add(faAnglesRight,faAnglesLeft,faAngleRight,faAngleLeft,faUserSecret)
 
 const axiosInstance = axios.create({
     
-    baseURL:'https://user-api-staging.ourpass.co'
+    baseURL: process.env.VUE_APP_API_URL_V1
   })
   const axiosInstance2 = axios.create({
   
-    baseURL:'https://user-api2-staging.ourpass.co/v1',
+    baseURL:`${process.env.VUE_APP_API_URL_V2}/v1`,
     headers: {
       Authorization: 'Bearer ' + localStorage.getItem('token'),
-      'verify-admin': 'test_b37c4142cc494daf90b1842713d63caa',
+      'verify-admin': process.env.VUE_APP_ADMIN_AUTH_KEY,
     },
   })
 

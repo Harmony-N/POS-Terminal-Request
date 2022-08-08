@@ -114,6 +114,21 @@
                     >
                   </div>
                   <div v-if="selectedTab == 2" class="search">
+                  <div>
+                  <CButton color="info" @click="() => { visibleLiveDemo = true }" style="margin-right:10px">Filter</CButton>
+                    <CModal :visible="visibleLiveDemo" @close="() => { visibleLiveDemo = false }">
+                      <CModalHeader>
+                        <CModalTitle>Modal title</CModalTitle>
+                      </CModalHeader>
+                      <CModalBody>Woohoo, you're reading this text in a modal!</CModalBody>
+                      <CModalFooter>
+                        <CButton color="secondary" @click="() => { visibleLiveDemo = false }">
+                          Close
+                        </CButton>
+                        <CButton color="primary">Save changes</CButton>
+                      </CModalFooter>
+                    </CModal>
+                    </div>
                     <div>
                       <CForm>
                         <CFormInput
