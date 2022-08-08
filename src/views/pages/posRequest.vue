@@ -96,17 +96,17 @@
       POS REQUEST
     </div>
      <div>
-      <span class="font">Business Name:</span> {{ business.name}}
+      <span class="font">Business Name:</span> {{ business?.name}}
     </div>
     <hr>
      <div>
-      <span class="font">Business Type:</span> {{ business.businessType}}
+      <span class="font">Phone Number:</span> {{ business?.user?.phoneNumber}}
     </div>
     <hr>
-     <div>
-      <span class="font">Business Description:</span> {{ business.description }}
+    <div>
+      <span class="font">Email:</span> {{ business?.user?.email}}
     </div>
-    <hr />
+    <hr>
     <div>
       <span class="font"> Quantity: </span>{{ posRequestData.quantity }}
     </div>
@@ -137,10 +137,8 @@
       <span class="font"> Update Date:</span> {{ $moment(posRequestData.updatedAt).format('MMMM Do YYYY') }}
     </div>
     <hr>
-     <div>
-      <span class="font">User ID:</span> {{business.userId}}
-    </div>
-    <hr />
+     
+
 
     <div style="margin-top: 100px" v-if="posRequestData.status == 'completed'">
       <span class="p">POS DATA</span>
@@ -148,20 +146,23 @@
       <CTable>
         <CTableHead>
           <CTableRow>
+            <CTableHeaderCell scope="col">SN</CTableHeaderCell>
             <CTableHeaderCell scope="col">Terminal ID</CTableHeaderCell>
             <CTableHeaderCell scope="col">Country</CTableHeaderCell>
 
             <CTableHeaderCell scope="col">Enabled</CTableHeaderCell>
-            <CTableHeaderCell scope="col">Ourpass Reference</CTableHeaderCell>
+            <CTableHeaderCell scope="col">Reference</CTableHeaderCell>
             <CTableHeaderCell scope="col">Provider</CTableHeaderCell>
             <CTableHeaderCell scope="col">Type</CTableHeaderCell>
-            <CTableHeaderCell scope="col">Wallet ID</CTableHeaderCell>
             <CTableHeaderCell scope="col">Status</CTableHeaderCell>
-            <CTableHeaderCell scope="col">ID</CTableHeaderCell>
+            
           </CTableRow>
         </CTableHead>
         <CTableBody>
           <CTableRow color="dark" v-for="data in completeddata" :key="data.id">
+          <CTableHeaderCell scope="row">{{
+              data.authorisation
+            }}</CTableHeaderCell>
             <CTableHeaderCell scope="row">{{
               data.authorisation
             }}</CTableHeaderCell>
@@ -171,9 +172,8 @@
             <CTableDataCell>{{ data.ourpassReference }}</CTableDataCell>
             <CTableDataCell>{{ data.provider }}</CTableDataCell>
             <CTableHeaderCell scope="row">{{ data.type }}</CTableHeaderCell>
-            <CTableDataCell>{{ data.walletId }}</CTableDataCell>
             <CTableDataCell>{{ data.status }}</CTableDataCell>
-            <CTableHeaderCell scope="row">{{ data.id }}</CTableHeaderCell>
+           
           </CTableRow>
         </CTableBody>
       </CTable>
@@ -268,6 +268,7 @@ export default {
       this.posRequestData = response.data.data
       this.completeddata = response.data.data.pos
       this.business = response.data.data.business
+      
 
       this.quantity = this.posRequestData.quantity.toString()
       this.requestQuantity = this.posRequestData.quantity.toString()

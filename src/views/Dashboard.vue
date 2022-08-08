@@ -151,7 +151,10 @@
                   <CTableHead color="light">
                     <CTableRow>
                       <CTableHeaderCell scope="col"
-                        >OurpassReference</CTableHeaderCell
+                        >Reference</CTableHeaderCell
+                      >
+                      <CTableHeaderCell scope="col"
+                        >Serial Number</CTableHeaderCell
                       >
                       <CTableHeaderCell scope="col"
                         >Terminal ID</CTableHeaderCell
@@ -169,6 +172,9 @@
                       :key="data.id"
                       @click="table1(data)"
                     >
+                      <CTableHeaderCell scope="row">{{
+                        data.ourpassReference
+                      }}</CTableHeaderCell>
                       <CTableHeaderCell scope="row">{{
                         data.ourpassReference
                       }}</CTableHeaderCell>
@@ -232,7 +238,7 @@
                         data.business.user.email
                       }}</CTableHeaderCell>
                       <CTableHeaderCell scope="row">{{
-                        data.business.phoneNumber
+                        data.business.user.phoneNumber
                       }}</CTableHeaderCell>
                       <CTableDataCell>{{ data.posType }}</CTableDataCell>
                       <CTableDataCell>{{ data.quantity }}</CTableDataCell>
